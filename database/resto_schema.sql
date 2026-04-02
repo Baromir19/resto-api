@@ -59,7 +59,7 @@ CREATE TABLE `orders` (
   `id_order` int NOT NULL AUTO_INCREMENT,
   `daily_id_order` int NOT NULL,
   `date_creation_order` datetime NOT NULL,
-  `id_status` int NOT NULL,
+  `id_status` int,
   `id_client` int NOT NULL,
   PRIMARY KEY (`id_order`),
   KEY `id_status` (`id_status`),
@@ -77,11 +77,14 @@ DROP TABLE IF EXISTS `order_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_items` (
+  `id_order_item` int NOT NULL AUTO_INCREMENT,
   `id_order` int NOT NULL,
   `id_dish` int NOT NULL,
   `quantity_order_item` int NOT NULL,
-  PRIMARY KEY (`id_order`,`id_dish`),
+  PRIMARY KEY (`id_order_item`),
   KEY `id_dish` (`id_dish`),
+  KEY `id_order` (`id_order`),
+  KEY `id_order_item` (`id_order_item`),
   CONSTRAINT `fk_order_items_orders` FOREIGN KEY (`id_order`) REFERENCES `orders`(`id_order`),
   CONSTRAINT `fk_order_items_dishes` FOREIGN KEY (`id_dish`) REFERENCES `dishes`(`id_dish`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

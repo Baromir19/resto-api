@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 
 // todo:
 @Entity
-@Table(name = "clients")
-public class Client {
+@Table(name = "dishes")
+public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_client")
+    @Column(name = "id_dish")
     private Integer id;
 }

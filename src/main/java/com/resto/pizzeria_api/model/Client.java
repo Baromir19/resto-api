@@ -30,10 +30,10 @@ public class Client {
   @Column(name = "id_client")
   private Integer id;
 
-  @Column(name = "first_name", nullable = false, length = 50)
+  @Column(name = "first_name_client", nullable = false, length = 50)
   private String firstName;
 
-  @Column(name = "last_name", nullable = false, length = 50)
+  @Column(name = "last_name_client", nullable = false, length = 50)
   private String lastName;
 
   @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

@@ -1,5 +1,6 @@
 package com.resto.pizzeria_api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "id_order", nullable = false)
+    @JsonBackReference // problème de récursivité
     private Order order;
 
     @ManyToOne

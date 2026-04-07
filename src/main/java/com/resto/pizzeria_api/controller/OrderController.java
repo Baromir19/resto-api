@@ -71,7 +71,6 @@ public class OrderController {
     public void deleteOrder(
             @PathVariable final Integer id
     ) throws ApiNotFoundException {
-        orderService.getOrderById(id); // vérifier l'existence
         orderService.deleteOrder(id);
     }
 }

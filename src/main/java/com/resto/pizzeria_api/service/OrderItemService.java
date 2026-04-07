@@ -11,23 +11,30 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderItemService {
-    private final OrderItemRepository orderItemRepository;
+  private final OrderItemRepository orderItemRepository;
 
-    public List<OrderItem> getAllOrderItems() {
-        return orderItemRepository.findAll();
+  public List<OrderItem> getAllOrderItems() {
+    return orderItemRepository.findAll();
+  }
+
+  public OrderItem getOrderItemById(
+      final Integer id
+  ) throws ApiNotFoundException {
+    return orderItemRepository.findById(id)
+        .orElseThrow(() -> new ApiNotFoundException(
+            "Article de commande n'a pas été trouvé"));
+  }
+
+  public OrderItem saveOrderItem(final OrderItem orderItem) {
+    return orderItemRepository.save(orderItem);
+  }
+
+  public void deleteOrderItem(final Integer id) throws ApiNotFoundException {
+    if (!orderItemRepository.existsById(id)) {
+      throw new ApiNotFoundException(
+          "Article de commande n'a pas été trouvé");
     }
 
-    public OrderItem getOrderItemById(final Integer id) throws ApiNotFoundException {
-        return orderItemRepository.findById(id).orElseThrow(
-                () -> new ApiNotFoundException(
-                        "Article de commande n'a pas été trouvée"));
-    }
-
-    public OrderItem saveOrderItem(final OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
-    }
-
-    public void deleteOrderItem(final Integer id) {
-        orderItemRepository.deleteById(id);
-    }
+    orderItemRepository.deleteById(id);
+  }
 }

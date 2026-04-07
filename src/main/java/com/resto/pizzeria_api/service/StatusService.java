@@ -11,16 +11,18 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StatusService {
-    private final StatusRepository statusRepository;
+  private final StatusRepository statusRepository;
 
-    public List<Status> getAllStatuses() {
-        return statusRepository.findAll();
-    }
+  public List<Status> getAllStatuses() {
+    return statusRepository.findAll();
+  }
 
-    public Status getStatusById(
-            final Integer id
-    ) throws ApiNotFoundException {
-        return statusRepository.findById(id).orElseThrow(
-                () -> new ApiNotFoundException("Statut n'a pas été trouvé"));
-    }
+  public Status getStatusById(
+      final Integer id
+  ) throws ApiNotFoundException {
+    return statusRepository.findById(id)
+        .orElseThrow(() -> new ApiNotFoundException(
+            "Statut n'a pas été trouvé"));
+  }
 }
+

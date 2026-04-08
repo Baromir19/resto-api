@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .env
+javadoc/
 
 ### STS ###
 .apt_generated
@@ -32,6 +33,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### Secret ###
-src/main/resources/application-db.properties

@@ -9,58 +9,85 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller pour gérer les clients.
+ * Fournit les opérations CRUD standard via /api/clients.
+ */
 @RestController
 @RequestMapping("/api/clients")
 @RequiredArgsConstructor
 public class ClientController {
+    private final ClientService clientService;
 
-  private final ClientService clientService;
+    /**
+     * Retourne tous les clients.
+     * @return Liste des clients
+     */
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> getAllClients() {
+        return clientService.getAllClients();
+    }
 
-  // READ : Récupérer tous les clients (GET /api/clients)
-  @GetMapping
-  @ResponseStatus(HttpStatus.OK)
-  public List<Client> getAllClients() {
-    return clientService.getAllClients();
-  }
+    /**
+     * Retourne un client par ID.
+     * @param id ID du client
+     * @return Client trouvé
+     * @throws ApiNotFoundException si non trouvé
+     */
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Client getClientById(@PathVariable final Integer id) throws ApiNotFoundException {
+        return clientService.getClientById(id);
+    }
 
-  // READ : Récupérer un client précis (GET /api/clients/{id})
-  @GetMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public Client getClientById(@PathVariable final Integer id) throws ApiNotFoundException {
-    return clientService.getClientById(id);
-  }
+    /**
+     * Crée un nouveau client.
+     * @param client Client à créer
+     * @return Client créé
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Client createClient(@RequestBody final Client client) {
+        // Le client reçu en JSON n'a pas d'ID, la base de données va le générer
+        return clientService.saveClient(client);
+    }
 
-  // CREATE : Ajouter un nouveau client (POST /api/clients)
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED) // Optimisation RESTful appliquée ici
-  public Client createClient(@RequestBody final Client client) {
-    // Le client reçu en JSON n'a pas d'ID, la base de données va le générer
-    return clientService.saveClient(client);
-  }
+    /**
+     * Met à jour un client existant.
+     * @param id ID du client
+     * @param updatedClient Nouvelles données
+     * @return Client mis à jour
+     * @throws ApiNotFoundException si non trouvé
+     */
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Client updateClient(
+            @PathVariable final Integer id,
+            @RequestBody final Client updatedClient
+    ) throws ApiNotFoundException {
 
-  // UPDATE : Modifier un client existant (PUT /api/clients/{id})
-  @PutMapping("/{id}")
-  @ResponseStatus(HttpStatus.OK)
-  public Client updateClient(
-      @PathVariable final Integer id,
-      @RequestBody final Client updatedClient
-  ) throws ApiNotFoundException {
+        // 1. On vérifie que le client existe (sinon ça lève l'exception).
+        final Client existing = clientService.getClientById(id);
 
-    // 1. On vérifie que le client existe (sinon ça lève l'exception)
-    final Client existing = clientService.getClientById(id);
+        // 2. On met à jour uniquement les champs modifiables
+        existing.setFirstName(updatedClient.getFirstName());
+        existing.setLastName(updatedClient.getLastName());
 
-    // 2. On met à jour uniquement les champs modifiables
-    existing.setFirstName(updatedClient.getFirstName());
-    existing.setLastName(updatedClient.getLastName());
+        // 3. On sauvegarde les modifications
+        return clientService.saveClient(existing);
+    }
 
-    // 3. On sauvegarde les modifications
-    return clientService.saveClient(existing);
-  }
-
-  // DELETE : Supprimer un client (DELETE /api/clients/{id})
-  @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT) // Code 204 : Action réussie, pas de contenu à renvoyer
-  public void deleteClient(@PathVariable final Integer id) throws ApiNotFoundException {
-    clientService.deleteClient(id);
-  }
+    /**
+     * Supprime un client.
+     * @param id ID du client
+     * @throws ApiNotFoundException si non trouvé
+     */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClient(
+            @PathVariable final Integer id
+    ) throws ApiNotFoundException {
+        clientService.deleteClient(id);
+    }
 }

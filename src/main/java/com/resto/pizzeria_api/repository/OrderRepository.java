@@ -1,10 +1,14 @@
 package com.resto.pizzeria_api.repository;
 
 import com.resto.pizzeria_api.model.Order;
-import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Repository pour gérer les commandes.
+ * Étend JpaRepository pour fournir les opérations CRUD standard.
+ */
 @Repository
 public interface OrderRepository
-        extends JpaRepository<@NonNull Order, @NonNull Integer> { }
+        extends JpaRepository<Order, Integer> {
+}

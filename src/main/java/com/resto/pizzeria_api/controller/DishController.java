@@ -9,18 +9,32 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller pour gérer les plats.
+ * Fournit les opérations CRUD standard via /api/dishes.
+ */
 @RestController
 @RequestMapping("/api/dishes")
 @RequiredArgsConstructor
 public class DishController {
     private final DishService dishService;
 
+    /**
+     * Retourne tous les plats.
+     * @return Liste des plats
+     */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Dish> getAllDishes() {
         return dishService.getAllDishes();
     }
 
+    /**
+     * Retourne un plat par ID.
+     * @param id ID du plat
+     * @return Plat trouvé
+     * @throws ApiNotFoundException si non trouvé
+     */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Dish getDishById(
@@ -29,12 +43,24 @@ public class DishController {
         return dishService.getDishById(id);
     }
 
+    /**
+     * Crée un nouveau plat.
+     * @param dish plat à créer
+     * @return Plat créé
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Dish createDish(@RequestBody final Dish dish) {
         return dishService.saveDish(dish);
     }
 
+    /**
+     * Met à jour un plat existant.
+     * @param id ID du plat
+     * @param updated Nouvelles données
+     * @return Plat mis à jour
+     * @throws ApiNotFoundException si non trouvé
+     */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Dish updateDish(
@@ -48,6 +74,11 @@ public class DishController {
         return dishService.saveDish(existing);
     }
 
+    /**
+     * Supprime un plat.
+     * @param id ID du plat
+     * @throws ApiNotFoundException si non trouvé
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDish(

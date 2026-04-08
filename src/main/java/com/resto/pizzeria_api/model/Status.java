@@ -1,23 +1,26 @@
 package com.resto.pizzeria_api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+/**
+ * Entité représentant un statut de commande.
+ */
 @Entity
 @Table(name = "status")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Status {
+    /** Identifiant du statut. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_status")
     private Integer id;
 
-    @Column(name = "label_status", nullable = false, unique = true)
+    /** Libellé du statut. */
+    @Column(name = "label_status", nullable = false,
+            unique = true, length = 50)
     private String label;
 }

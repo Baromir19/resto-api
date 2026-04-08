@@ -16,7 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// todo:
 @Entity
 @Table(name = "clients")
 @Getter // Remplace @Data pour éviter les bugs JPA

@@ -1,29 +1,35 @@
 package com.resto.pizzeria_api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.math.BigDecimal;
+
+/**
+ * Entité représentant un plat.
+ */
 @Entity
 @Table(name = "dishes")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Dish {
+    /** Identifiant du plat. */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_dish")
     private Integer id;
 
-    @Column(name = "name_dish", nullable = false)
+    /** Nom du plat. */
+    @Column(name = "name_dish", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "price_dish", nullable = false)
-    private Double price;
+    /** Prix du plat. */
+    @Column(name = "price_dish", nullable = false, precision = 15, scale = 2)
+    private BigDecimal price;
 
-    @Column(name = "description_dish", nullable = false)
+    /** Description du plat. */
+    @Column(name = "description_dish", nullable = false, length = 250)
     private String description;
 }

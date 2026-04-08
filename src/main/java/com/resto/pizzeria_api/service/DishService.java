@@ -8,25 +8,52 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service pour gérer les plats.
+ */
 @Service
 @RequiredArgsConstructor
 public class DishService {
     private final DishRepository dishRepository;
 
+    /**
+     * Récupère tous les plats de la base de données.
+     * @return Tous les plats trouvés
+     */
     public List<Dish> getAllDishes() {
         return dishRepository.findAll();
     }
 
+    /**
+     * Récupère un plat par son identifiant.
+     *
+     * @param id L'identifiant du plat
+     * @return Le plat trouvé
+     * @throws ApiNotFoundException Si aucun plat ne correspond à l'ID
+     */
     public Dish getDishById(final Integer id) throws ApiNotFoundException {
         return dishRepository.findById(id)
                 .orElseThrow(() -> new ApiNotFoundException(
                         "Plat n'a pas été trouvé"));
     }
 
+    /**
+     * Sauvegarde un nouveau plat ou met à jour un plat existant.
+     *
+     * @param dish L'objet plat à sauvegarder
+     * @return Le plat sauvegardé (avec son ID généré)
+     */
     public Dish saveDish(final Dish dish) {
         return dishRepository.save(dish);
     }
 
+    /**
+     * Supprime un plat par son identifiant.
+     *
+     * @param id L'identifiant du plat à supprimer
+     * @throws ApiNotFoundException Si le plat n'existe pas
+     *                              avant la suppression
+     */
     public void deleteDish(final Integer id) throws ApiNotFoundException {
         if (!dishRepository.existsById(id)) {
             throw new ApiNotFoundException("Plat n'a pas été trouvé");

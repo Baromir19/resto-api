@@ -34,7 +34,8 @@ public class DishService {
     public Dish getDishById(final Integer id) throws ApiNotFoundException {
         return dishRepository.findById(id)
                 .orElseThrow(() -> new ApiNotFoundException(
-                        "Plat n'a pas été trouvé"));
+                        "Le plat avec l'ID " + id + " n'a pas été trouvé."
+                ));
     }
 
     /**
@@ -56,7 +57,9 @@ public class DishService {
      */
     public void deleteDish(final Integer id) throws ApiNotFoundException {
         if (!dishRepository.existsById(id)) {
-            throw new ApiNotFoundException("Plat n'a pas été trouvé");
+            throw new ApiNotFoundException(
+                    "Impossible de supprimer le plat avec l'ID " + id
+            );
         }
 
         dishRepository.deleteById(id);

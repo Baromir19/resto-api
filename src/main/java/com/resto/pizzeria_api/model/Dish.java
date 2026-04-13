@@ -33,9 +33,12 @@ public class Dish {
   /**
    * Nom du plat.
    */
-  @Column(name = "name_dish", nullable = false, length = 50)
+  @Column(name = "name_dish", unique = true, nullable = false, length = 50)
   private String name;
 
+  /**
+   * Type de plat.
+   * */
   @Column(name = "category_dish", length = 50)
   private String category;
 
@@ -51,7 +54,7 @@ public class Dish {
   @Column(name = "description_dish", nullable = false, length = 250)
   private String description;
 
-  // columnDefinition permet d'injecter la valeur par défaut directement dans le SQL généré
-  @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
+  /** Permet d'injecter la valeur par défaut directement dans le SQL généré */
+  @Column(name = "available_dish", columnDefinition = "BOOLEAN DEFAULT TRUE")
   private Boolean available = true;
 }

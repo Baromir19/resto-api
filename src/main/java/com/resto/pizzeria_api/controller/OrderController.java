@@ -52,6 +52,8 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(@RequestBody final Order order) {
+        order.setId(null);
+
         order.setCreationDate(LocalDateTime.now());
 
         if (order.getItems() != null) {

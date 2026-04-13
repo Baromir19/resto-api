@@ -51,6 +51,8 @@ public class DishController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Dish createDish(@RequestBody final Dish dish) {
+        dish.setId(null);
+        dish.setAvailable(true);
         return dishService.saveDish(dish);
     }
 
@@ -68,9 +70,12 @@ public class DishController {
             @RequestBody final Dish updated
     ) throws ApiNotFoundException {
         final Dish existing = dishService.getDishById(id);
+
         existing.setName(updated.getName());
         existing.setPrice(updated.getPrice());
         existing.setDescription(updated.getDescription());
+        existing.setCategory(updated.getCategory());
+
         return dishService.saveDish(existing);
     }
 

@@ -37,7 +37,9 @@ public class ClientController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Client getClientById(@PathVariable final Integer id) throws ApiNotFoundException {
+    public Client getClientById(
+            @PathVariable final Integer id
+    ) throws ApiNotFoundException {
         return clientService.getClientById(id);
     }
 
@@ -49,7 +51,7 @@ public class ClientController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@RequestBody final Client client) {
-        // Le client reçu en JSON n'a pas d'ID, la base de données va le générer
+        client.setId(null);
         return clientService.saveClient(client);
     }
 

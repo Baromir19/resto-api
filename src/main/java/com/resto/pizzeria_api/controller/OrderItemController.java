@@ -51,6 +51,8 @@ public class OrderItemController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderItem createOrderItem(@RequestBody OrderItem item) {
+        item.setId(null);
+
         return orderItemService.saveOrderItem(item);
     }
 

@@ -21,6 +21,7 @@ public class DishController {
 
     /**
      * Retourne tous les plats.
+     *
      * @return Liste des plats
      */
     @GetMapping
@@ -31,6 +32,7 @@ public class DishController {
 
     /**
      * Retourne un plat par ID.
+     *
      * @param id ID du plat
      * @return Plat trouvé
      * @throws ApiNotFoundException si non trouvé
@@ -45,6 +47,7 @@ public class DishController {
 
     /**
      * Crée un nouveau plat.
+     *
      * @param dish plat à créer
      * @return Plat créé
      */
@@ -58,7 +61,8 @@ public class DishController {
 
     /**
      * Met à jour un plat existant.
-     * @param id ID du plat
+     *
+     * @param id      ID du plat
      * @param updated Nouvelles données
      * @return Plat mis à jour
      * @throws ApiNotFoundException si non trouvé
@@ -81,6 +85,7 @@ public class DishController {
 
     /**
      * Supprime un plat.
+     *
      * @param id ID du plat
      * @throws ApiNotFoundException si non trouvé
      */

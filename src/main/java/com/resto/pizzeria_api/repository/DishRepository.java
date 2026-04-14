@@ -13,9 +13,13 @@ import java.util.Optional;
  */
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Integer> {
-    /** Trouve les plats que ne sont pas archivé. */
+    /**
+     * Trouve les plats que ne sont pas archivé.
+     */
     List<Dish> findByAvailableTrue();
 
-    /** Trouve le plat qui si n'est pas archivé. */
+    /**
+     * Trouve le plat qui si n'est pas archivé.
+     */
     Optional<Dish> findByIdAndAvailableTrue(final Integer id);
 }

@@ -22,6 +22,7 @@ public class ClientController {
 
     /**
      * Retourne tous les clients.
+     *
      * @return Liste des clients
      */
     @GetMapping
@@ -32,6 +33,7 @@ public class ClientController {
 
     /**
      * Retourne un client par ID.
+     *
      * @param id ID du client
      * @return Client trouvé
      * @throws ApiNotFoundException si non trouvé
@@ -46,6 +48,7 @@ public class ClientController {
 
     /**
      * Crée un nouveau client.
+     *
      * @param client Client à créer
      * @return Client créé
      */
@@ -54,14 +57,13 @@ public class ClientController {
     public Client createClient(@Valid @RequestBody final Client client) {
         client.setId(null);
 
-
-
         return clientService.saveClient(client);
     }
 
     /**
      * Met à jour un client existant.
-     * @param id ID du client
+     *
+     * @param id            ID du client
      * @param updatedClient Nouvelles données
      * @return Client mis à jour
      * @throws ApiNotFoundException si non trouvé
@@ -86,6 +88,7 @@ public class ClientController {
 
     /**
      * Supprime un client.
+     *
      * @param id ID du client
      * @throws ApiNotFoundException si non trouvé
      */

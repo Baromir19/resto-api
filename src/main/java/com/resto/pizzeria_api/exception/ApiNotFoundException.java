@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ApiNotFoundException extends Exception {
     /**
      * Construit l'exception avec un message.
+     *
      * @param message Message d'erreur
      */
     public ApiNotFoundException(String message) {

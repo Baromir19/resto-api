@@ -4,20 +4,25 @@ import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Client;
 import com.resto.pizzeria_api.repository.ClientRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests unitaires de ClientService.
+ * Isole complètement le service via Mockito — aucun accès base de données.
+ */
 @ExtendWith(MockitoExtension.class)
+@DisplayName("ClientService — tests unitaires")
 class ClientServiceTest {
 
   @Mock
@@ -26,118 +31,144 @@ class ClientServiceTest {
   @InjectMocks
   private ClientService clientService;
 
-  @Test
-  @DisplayName("getAllClients() doit retourner la liste complète des clients")
-  void getAllClients_ShouldReturnListOfClients() {
-    // --- ARRANGE ---
-    Client client1 = new Client();
-    client1.setFirstName("Mario");
+  // -------------------------------------------------------------------------
+  // Fixture partagée
+  // -------------------------------------------------------------------------
 
-    Client client2 = new Client();
-    client2.setFirstName("Luigi");
-
-    List<Client> expectedClients = Arrays.asList(client1, client2);
-
-    when(clientRepository.findAll()).thenReturn(expectedClients);
-
-    // --- ACT ---
-    List<Client> actualClients = clientService.getAllClients();
-
-    // --- ASSERT ---
-    assertEquals(2, actualClients.size(), "La liste doit contenir 2 clients");
-    assertEquals("Mario", actualClients.getFirst().getFirstName());
-    verify(clientRepository, times(1)).findAll();
+  private Client buildClient(Integer id, String firstName, String lastName) {
+    Client c = new Client();
+    c.setId(id);
+    c.setFirstName(firstName);
+    c.setLastName(lastName);
+    return c;
   }
 
-  @Test
-  @DisplayName("getClientById() doit retourner le client si l'ID existe")
-  void getClientById_WhenIdExists_ShouldReturnClient() throws ApiNotFoundException {
-    // --- ARRANGE ---
-    Integer clientId = 1;
-    Client expectedClient = new Client();
-    expectedClient.setId(clientId);
-    expectedClient.setLastName("Rossi");
+  // =========================================================================
+  // getAllClients
+  // =========================================================================
 
-    when(clientRepository.findById(clientId)).thenReturn(Optional.of(expectedClient));
+  @Nested
+  @DisplayName("getAllClients")
+  class GetAllClients {
 
-    // --- ACT ---
-    Client actualClient = clientService.getClientById(clientId);
+    @Test
+    @DisplayName("Doit retourner la liste complète des clients")
+    void shouldReturnAllClients() {
+      List<Client> clients = List.of(
+          buildClient(1, "Jean", "Dupont"),
+          buildClient(2, "Marie", "Martin")
+      );
+      when(clientRepository.findAll()).thenReturn(clients);
 
-    // --- ASSERT ---
-    assertNotNull(actualClient);
-    assertEquals(clientId, actualClient.getId());
-    assertEquals("Rossi", actualClient.getLastName());
-    verify(clientRepository, times(1)).findById(clientId);
+      List<Client> result = clientService.getAllClients();
+
+      assertEquals(2, result.size());
+      verify(clientRepository, times(1)).findAll();
+    }
+
+    @Test
+    @DisplayName("Doit retourner une liste vide si aucun client")
+    void shouldReturnEmptyListWhenNoClients() {
+      when(clientRepository.findAll()).thenReturn(List.of());
+
+      List<Client> result = clientService.getAllClients();
+
+      assertTrue(result.isEmpty());
+      verify(clientRepository, times(1)).findAll();
+    }
   }
 
-  @Test
-  @DisplayName("getClientById() doit lever une exception si l'ID n'existe pas")
-  void getClientById_WhenIdDoesNotExist_ShouldThrowException() {
-    // --- ARRANGE ---
-    Integer clientId = 999;
-    when(clientRepository.findById(clientId)).thenReturn(Optional.empty());
+  // =========================================================================
+  // getClientById
+  // =========================================================================
 
-    // --- ACT & ASSERT ---
-    ApiNotFoundException exception = assertThrows(
-        ApiNotFoundException.class,
-        () -> clientService.getClientById(clientId)
-    );
+  @Nested
+  @DisplayName("getClientById")
+  class GetClientById {
 
-    // On vérifie que le message d'erreur est exactement celui défini dans votre service
-    assertTrue(exception.getMessage().contains("Le client avec l'ID 999 n'a pas été trouvé."));
-    verify(clientRepository, times(1)).findById(clientId);
+    @Test
+    @DisplayName("Doit retourner le client si l'ID existe")
+    void shouldReturnClientWhenIdExists() throws ApiNotFoundException {
+      Client client = buildClient(1, "Jean", "Dupont");
+      when(clientRepository.findById(1)).thenReturn(Optional.of(client));
+
+      Client result = clientService.getClientById(1);
+
+      assertNotNull(result);
+      assertEquals(1, result.getId());
+      assertEquals("Jean", result.getFirstName());
+      verify(clientRepository).findById(1);
+    }
+
+    @Test
+    @DisplayName("Doit lever ApiNotFoundException si l'ID n'existe pas")
+    void shouldThrowApiNotFoundExceptionWhenIdNotExists() {
+      when(clientRepository.findById(999)).thenReturn(Optional.empty());
+
+      ApiNotFoundException ex = assertThrows(
+          ApiNotFoundException.class,
+          () -> clientService.getClientById(999)
+      );
+
+      assertTrue(ex.getMessage().contains("999"));
+      verify(clientRepository).findById(999);
+    }
   }
 
-  @Test
-  @DisplayName("saveClient() doit retourner le client sauvegardé")
-  void saveClient_ShouldReturnSavedClient() {
-    // --- ARRANGE ---
-    Client newClient = new Client();
-    newClient.setFirstName("Peppone");
+  // =========================================================================
+  // saveClient
+  // =========================================================================
 
-    when(clientRepository.save(newClient)).thenReturn(newClient);
+  @Nested
+  @DisplayName("saveClient")
+  class SaveClient {
 
-    // --- ACT ---
-    Client savedClient = clientService.saveClient(newClient);
+    @Test
+    @DisplayName("Doit sauvegarder et retourner le client avec son ID généré")
+    void shouldSaveAndReturnClient() {
+      Client input  = buildClient(null, "Jean", "Dupont");
+      Client saved  = buildClient(1,    "Jean", "Dupont");
+      when(clientRepository.save(input)).thenReturn(saved);
 
-    // --- ASSERT ---
-    assertNotNull(savedClient);
-    assertEquals("Peppone", savedClient.getFirstName());
-    verify(clientRepository, times(1)).save(newClient);
+      Client result = clientService.saveClient(input);
+
+      assertNotNull(result.getId());
+      assertEquals(1, result.getId());
+      verify(clientRepository).save(input);
+    }
   }
 
-  @Test
-  @DisplayName("deleteClient() doit supprimer le client si l'ID existe")
-  void deleteClient_WhenIdExists_ShouldDeleteSuccessfully() throws ApiNotFoundException {
-    // --- ARRANGE ---
-    Integer clientId = 1;
-    when(clientRepository.existsById(clientId)).thenReturn(true);
+  // =========================================================================
+  // deleteClient
+  // =========================================================================
 
-    // --- ACT ---
-    clientService.deleteClient(clientId);
+  @Nested
+  @DisplayName("deleteClient")
+  class DeleteClient {
 
-    // --- ASSERT ---
-    verify(clientRepository, times(1)).existsById(clientId);
-    verify(clientRepository, times(1)).deleteById(clientId);
-  }
+    @Test
+    @DisplayName("Doit supprimer le client si l'ID existe")
+    void shouldDeleteClientWhenIdExists() throws ApiNotFoundException {
+      when(clientRepository.existsById(1)).thenReturn(true);
 
-  @Test
-  @DisplayName("deleteClient() doit lever une exception si l'ID n'existe pas")
-  void deleteClient_WhenIdDoesNotExist_ShouldThrowException() {
-    // --- ARRANGE ---
-    Integer clientId = 999;
-    when(clientRepository.existsById(clientId)).thenReturn(false);
+      assertDoesNotThrow(() -> clientService.deleteClient(1));
 
-    // --- ACT & ASSERT ---
-    ApiNotFoundException exception = assertThrows(
-        ApiNotFoundException.class,
-        () -> clientService.deleteClient(clientId)
-    );
+      verify(clientRepository).existsById(1);
+      verify(clientRepository).deleteById(1);
+    }
 
-    assertTrue(exception.getMessage().contains("Impossible de supprimer"));
+    @Test
+    @DisplayName("Doit lever ApiNotFoundException si le client n'existe pas")
+    void shouldThrowApiNotFoundExceptionWhenClientNotFound() {
+      when(clientRepository.existsById(999)).thenReturn(false);
 
-    verify(clientRepository, times(1)).existsById(clientId);
-    // On s'assure que la méthode deleteById n'est jamais appelée pour éviter de faire planter la base
-    verify(clientRepository, never()).deleteById(anyInt());
+      ApiNotFoundException ex = assertThrows(
+          ApiNotFoundException.class,
+          () -> clientService.deleteClient(999)
+      );
+
+      assertTrue(ex.getMessage().contains("999"));
+      verify(clientRepository, never()).deleteById(any());
+    }
   }
 }

@@ -15,13 +15,17 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Status {
-    /** Identifiant du statut. */
+    /**
+     * Identifiant du statut.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_status")
     private Integer id;
 
-    /** Libellé du statut. */
+    /**
+     * Libellé du statut.
+     */
     @Column(name = "label_status", nullable = false,
             unique = true, length = 50)
     @NotBlank(message = "Le libellé du statut est obligatoire")

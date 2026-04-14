@@ -18,6 +18,7 @@ public class DishService {
 
     /**
      * Récupère tous les plats de la base de données.
+     *
      * @return Tous les plats trouvés
      */
     public List<Dish> getAllDishes() {

@@ -18,6 +18,7 @@ public class StatusService {
 
     /**
      * Récupère tous les statuts de la base de données.
+     *
      * @return Tous les statuts trouvés
      */
     public List<Status> getAllStatuses() {

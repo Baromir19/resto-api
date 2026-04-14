@@ -22,6 +22,7 @@ public class OrderController {
 
     /**
      * Retourne toutes les commandes.
+     *
      * @return Liste des commandes
      */
     @GetMapping
@@ -32,6 +33,7 @@ public class OrderController {
 
     /**
      * Retourne une commande par ID.
+     *
      * @param id ID de la commande
      * @return Commande trouvée
      * @throws ApiNotFoundException si non trouvé
@@ -46,6 +48,7 @@ public class OrderController {
 
     /**
      * Crée une nouvelle commande.
+     *
      * @param order Commande à créer
      * @return Commande créée
      */
@@ -65,7 +68,8 @@ public class OrderController {
 
     /**
      * Met à jour une commande existant.
-     * @param id ID de la commande
+     *
+     * @param id           ID de la commande
      * @param updatedOrder Nouvelles données
      * @return Commande mise à jour
      * @throws ApiNotFoundException si non trouvé
@@ -96,6 +100,7 @@ public class OrderController {
 
     /**
      * Supprime une commande.
+     *
      * @param id ID de la commande
      * @throws ApiNotFoundException si non trouvé
      */

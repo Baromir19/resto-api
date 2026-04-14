@@ -4,6 +4,7 @@ import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Dish;
 import com.resto.pizzeria_api.service.DishService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class DishController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Dish createDish(@RequestBody final Dish dish) {
+    public Dish createDish(@Valid @RequestBody final Dish dish) {
         dish.setId(null);
         dish.setAvailable(true);
         return dishService.saveDish(dish);
@@ -71,7 +72,7 @@ public class DishController {
     @ResponseStatus(HttpStatus.OK)
     public Dish updateDish(
             @PathVariable final Integer id,
-            @RequestBody final Dish updated
+            @Valid @RequestBody final Dish updated
     ) throws ApiNotFoundException {
         final Dish existing = dishService.getDishById(id);
 

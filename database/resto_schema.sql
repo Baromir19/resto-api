@@ -48,7 +48,7 @@ CREATE TABLE `dishes`
     `name_dish`        varchar(50) COLLATE utf8mb4_unicode_ci  NOT NULL,
     `price_dish`       decimal(15, 2)                          NOT NULL,
     `description_dish` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `available_dish`   tinyint(1) default 1 NOT NULL,
+    `available_dish`   tinyint(1)                              NOT NULL DEFAULT 1,
     `category_dish`    varchar(50) null,
     PRIMARY KEY (`id_dish`),
     UNIQUE KEY `name_dish` (`name_dish`)

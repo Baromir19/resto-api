@@ -18,6 +18,7 @@ public class OrderService {
 
     /**
      * Récupère toutes les commandes de la base de données.
+     *
      * @return Toutes les commandes trouvées
      */
     public List<Order> getAllOrders() {

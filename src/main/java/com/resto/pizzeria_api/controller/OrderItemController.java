@@ -21,6 +21,7 @@ public class OrderItemController {
 
     /**
      * Retourne tous les articles de commande.
+     *
      * @return Liste des articles de commande
      */
     @GetMapping
@@ -31,6 +32,7 @@ public class OrderItemController {
 
     /**
      * Retourne un article de commande par ID.
+     *
      * @param id ID de l'article de commande
      * @return Article de commande trouvé
      * @throws ApiNotFoundException si non trouvé
@@ -45,6 +47,7 @@ public class OrderItemController {
 
     /**
      * Crée un nouvel article de commande.
+     *
      * @param item Article de commande à créer
      * @return Article de commande créé
      */
@@ -58,7 +61,8 @@ public class OrderItemController {
 
     /**
      * Met à jour un article de commande existant.
-     * @param id ID de l'article de commande
+     *
+     * @param id      ID de l'article de commande
      * @param updated Nouvelles données
      * @return Article de commande mis à jour
      * @throws ApiNotFoundException si non trouvé
@@ -79,6 +83,7 @@ public class OrderItemController {
 
     /**
      * Supprime un article de commande.
+     *
      * @param id ID de l'article de commande
      * @throws ApiNotFoundException si non trouvé
      */

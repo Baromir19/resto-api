@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")
 @DisplayName("DishController — tests d'intégration")
-class DishControllerIntegrationTest {
+class DishControllerTest {
 
   @Autowired
   private RestTestClient restTestClient;

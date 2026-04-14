@@ -23,7 +23,7 @@ import org.springframework.web.context.WebApplicationContext;
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")
 @DisplayName("ClientController — tests d'intégration")
-class ClientControllerIntegrationTest {
+class ClientControllerTest {
 
   @Autowired
   private RestTestClient restTestClient;

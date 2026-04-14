@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -35,10 +37,14 @@ public class Client {
 
     /** Prénom du client. */
     @Column(name = "first_name_client", nullable = false, length = 50)
+    @NotBlank(message = "Le prénom est obligatoire")
+    @Size(min = 2, max = 50, message = "Le prénom doit être entre 2 et 50 caractères")
     private String firstName;
 
     /** Nom du client. */
     @Column(name = "last_name_client", nullable = false, length = 50)
+    @NotBlank(message = "Le nom est obligatoire")
+    @Size(min = 2, max = 50, message = "Le nom doit être entre 2 et 50 caractères")
     private String lastName;
 
     /** Commandes associées au client. */

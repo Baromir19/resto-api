@@ -66,6 +66,6 @@ public class Dish {
   private String description;
 
   /** Permet d'injecter la valeur par défaut directement dans le SQL généré */
-  @Column(name = "available", nullable = false)
+  @Column(name = "available_dish", nullable = false)
   private Boolean available = true;
 }

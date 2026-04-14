@@ -4,6 +4,7 @@ import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Client;
 import com.resto.pizzeria_api.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +51,11 @@ public class ClientController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody final Client client) {
+    public Client createClient(@Valid @RequestBody final Client client) {
         client.setId(null);
+
+
+
         return clientService.saveClient(client);
     }
 
@@ -66,7 +70,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     public Client updateClient(
             @PathVariable final Integer id,
-            @RequestBody final Client updatedClient
+            @Valid @RequestBody final Client updatedClient
     ) throws ApiNotFoundException {
 
         // 1. On vérifie que le client existe (sinon ça lève l'exception).

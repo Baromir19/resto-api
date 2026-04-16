@@ -18,10 +18,11 @@ public class DishService {
 
     /**
      * Récupère tous les plats de la base de données.
+     *
      * @return Tous les plats trouvés
      */
     public List<Dish> getAllDishes() {
-        return dishRepository.findAll();
+        return dishRepository.findByAvailableTrue();
     }
 
     /**
@@ -32,9 +33,10 @@ public class DishService {
      * @throws ApiNotFoundException Si aucun plat ne correspond à l'ID
      */
     public Dish getDishById(final Integer id) throws ApiNotFoundException {
-        return dishRepository.findById(id)
+        return dishRepository.findByIdAndAvailableTrue(id)
                 .orElseThrow(() -> new ApiNotFoundException(
-                        "Plat n'a pas été trouvé"));
+                        "Le plat avec l'ID " + id + " n'a pas été trouvé."
+                ));
     }
 
     /**
@@ -55,10 +57,12 @@ public class DishService {
      *                              avant la suppression
      */
     public void deleteDish(final Integer id) throws ApiNotFoundException {
-        if (!dishRepository.existsById(id)) {
-            throw new ApiNotFoundException("Plat n'a pas été trouvé");
-        }
+        Dish dish = dishRepository.findByIdAndAvailableTrue(id)
+                .orElseThrow(() -> new ApiNotFoundException(
+                        "Dish n'a pas été trouvé avec ID : " + id
+                ));
 
-        dishRepository.deleteById(id);
+        dish.setAvailable(false);
+        dishRepository.save(dish);
     }
 }

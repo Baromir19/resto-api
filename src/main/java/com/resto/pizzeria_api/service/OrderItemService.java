@@ -18,6 +18,7 @@ public class OrderItemService {
 
     /**
      * Récupère tous les articles de commande de la base de données.
+     *
      * @return Tous les articles trouvés
      */
     public List<OrderItem> getAllOrderItems() {

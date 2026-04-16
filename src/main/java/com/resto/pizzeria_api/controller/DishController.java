@@ -4,6 +4,7 @@ import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Dish;
 import com.resto.pizzeria_api.service.DishService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class DishController {
 
     /**
      * Retourne tous les plats.
+     *
      * @return Liste des plats
      */
     @GetMapping
@@ -31,6 +33,7 @@ public class DishController {
 
     /**
      * Retourne un plat par ID.
+     *
      * @param id ID du plat
      * @return Plat trouvé
      * @throws ApiNotFoundException si non trouvé
@@ -45,18 +48,22 @@ public class DishController {
 
     /**
      * Crée un nouveau plat.
+     *
      * @param dish plat à créer
      * @return Plat créé
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Dish createDish(@RequestBody final Dish dish) {
+    public Dish createDish(@Valid @RequestBody final Dish dish) {
+        dish.setId(null);
+        dish.setAvailable(true);
         return dishService.saveDish(dish);
     }
 
     /**
      * Met à jour un plat existant.
-     * @param id ID du plat
+     *
+     * @param id      ID du plat
      * @param updated Nouvelles données
      * @return Plat mis à jour
      * @throws ApiNotFoundException si non trouvé
@@ -65,17 +72,21 @@ public class DishController {
     @ResponseStatus(HttpStatus.OK)
     public Dish updateDish(
             @PathVariable final Integer id,
-            @RequestBody final Dish updated
+            @Valid @RequestBody final Dish updated
     ) throws ApiNotFoundException {
         final Dish existing = dishService.getDishById(id);
+
         existing.setName(updated.getName());
         existing.setPrice(updated.getPrice());
         existing.setDescription(updated.getDescription());
+        existing.setCategory(updated.getCategory());
+
         return dishService.saveDish(existing);
     }
 
     /**
      * Supprime un plat.
+     *
      * @param id ID du plat
      * @throws ApiNotFoundException si non trouvé
      */

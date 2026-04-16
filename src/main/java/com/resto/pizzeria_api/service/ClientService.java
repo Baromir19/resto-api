@@ -20,6 +20,7 @@ public class ClientService {
 
     /**
      * Récupère tous les clients de la base de données.
+     *
      * @return Tous les clients trouvés
      */
     public List<Client> getAllClients() {

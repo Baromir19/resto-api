@@ -48,9 +48,10 @@ CREATE TABLE `dishes`
     `name_dish`        varchar(50) COLLATE utf8mb4_unicode_ci  NOT NULL,
     `price_dish`       decimal(15, 2)                          NOT NULL,
     `description_dish` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `available`        tinyint(1) default 1 null,
+    `available_dish`   tinyint(1)                              NOT NULL DEFAULT 1,
     `category_dish`    varchar(50) null,
-    PRIMARY KEY (`id_dish`)
+    PRIMARY KEY (`id_dish`),
+    UNIQUE KEY `name_dish` (`name_dish`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -150,12 +151,12 @@ VALUES ('Jean', 'Dupont'),
        ('Ada', 'Lovelace');
 
 -- 3. Insertion des plats/pizzas (Table dish)
-INSERT INTO `dishes` (`name_dish`, `price_dish`, `description_dish`, `available`, `category_dish`)
-VALUES ('Pizza Margherita', 10.00, 'Sauce tomate, mozzarella fraîche, basilic', 1, "pizza"),
-       ('Pizza 4 Fromages', 13.50, 'Sauce tomate, mozzarella, chèvre, gorgonzola, emmental', 1, "pizza"),
-       ('Pizza Reine', 11.50, 'Sauce tomate, mozzarella, jambon blanc, champignons frais', 1, "pizza"),
-       ('Tiramisu Maison', 5.50, 'Dessert traditionnel italien au café et mascarpone', 1, "dessert"),
-       ('Coca-Cola', 2.50, 'Canette 33cl', 1, "boisson");
+INSERT INTO `dishes` (`name_dish`, `price_dish`, `description_dish`, `available_dish`, `category_dish`)
+VALUES ('Pizza Margherita', 10.00, 'Sauce tomate, mozzarella fraîche, basilic', 1, 'pizza'),
+       ('Pizza 4 Fromages', 13.50, 'Sauce tomate, mozzarella, chèvre, gorgonzola, emmental', 1, 'pizza'),
+       ('Pizza Reine', 11.50, 'Sauce tomate, mozzarella, jambon blanc, champignons frais', 1, 'pizza'),
+       ('Tiramisu Maison', 5.50, 'Dessert traditionnel italien au café et mascarpone', 1, 'dessert'),
+       ('Coca-Cola', 2.50, 'Canette 33cl', 1, 'boisson');
 
 -- 4. Insertion des commandes (Table order_)
 -- On simule quelques commandes passées aujourd'hui.

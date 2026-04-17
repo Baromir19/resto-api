@@ -83,31 +83,15 @@ jobs:
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.qualitygate.wait=false
 
-      - name: Notify Teams (failure)
-        if: failure()
+      - name: Notify Teams
+        if: always()
         run: |
-          curl -H "Content-Type: application/json" \
+          curl -X POST \
+          -H "Content-Type: application/json" \
           -d '{
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "summary": "Build failed",
-            "themeColor": "FF0000",
-            "title": "Build échouée",
-            "text": "Repo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
-          }' \
-          ${{ secrets.TEAMS_WEBHOOK_URL }}
-
-      - name: Notify Teams (success)
-        if: success()
-        run: |
-          curl -H "Content-Type: application/json" \
-          -d '{
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "summary": "Build success",
-            "themeColor": "00FF00",
-            "title": "Build réussite",
-            "text": "Repo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
+            "repo": "${{ github.repository }}",
+            "branch": "${{ github.ref_name }}",
+            "status": "${{ job.status }}"
           }' \
           ${{ secrets.TEAMS_WEBHOOK_URL }}
 

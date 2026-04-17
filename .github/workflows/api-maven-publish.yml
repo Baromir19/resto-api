@@ -76,6 +76,8 @@ jobs:
           mvn -B clean verify \
           sonar:sonar \
           -Dsonar.projectKey=Baromir19_resto-api \
+          -Dsonar.organization=baromir19 \
+          -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.qualitygate.wait=false
 
       # todo: variables + urls to secrets !!

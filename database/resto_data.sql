@@ -3,8 +3,7 @@
 -- JEU D'ESSAI INITIAL - BASE RESTO
 -- ==========================================
 
-USE
-    `resto`;
+-- USE `resto`;
 
 -- 1. Insertion des statuts de commande
 -- Toujours insérer les nomenclatures en premier pour éviter les erreurs de clés étrangères

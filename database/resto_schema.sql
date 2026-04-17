@@ -59,6 +59,23 @@ CREATE TABLE `dishes`
 /* !40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `status`
+--
+
+DROP TABLE IF EXISTS `status`;
+/* !40101 SET @saved_cs_client     = @@character_set_client */;
+/* !50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `status`
+(
+    `id_status`    int                                    NOT NULL AUTO_INCREMENT,
+    `label_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (`id_status`),
+    UNIQUE KEY `label_status` (`label_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/* !40101 SET character_set_client = @saved_cs_client */;
+/* !40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+--
 -- Table structure for table `orders`
 --
 
@@ -101,23 +118,6 @@ CREATE TABLE `order_items`
     CONSTRAINT `fk_order_items_dishes` FOREIGN KEY (`id_dish`) REFERENCES `dishes` (`id_dish`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /* !40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `status`
---
-
-DROP TABLE IF EXISTS `status`;
-/* !40101 SET @saved_cs_client     = @@character_set_client */;
-/* !50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `status`
-(
-    `id_status`    int                                    NOT NULL AUTO_INCREMENT,
-    `label_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-    PRIMARY KEY (`id_status`),
-    UNIQUE KEY `label_status` (`label_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/* !40101 SET character_set_client = @saved_cs_client */;
-/* !40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /* !40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /* !40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

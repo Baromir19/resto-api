@@ -18,6 +18,15 @@ jobs:
       contents: read
       packages: write
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: resto
+        ports:
+          - 3306:3306
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,12 +40,14 @@ jobs:
           settings-path: ${{ github.workspace }}
           cache: maven
 
+      # todo init db
+
       - name: Run tests
         run: mvn clean verify
-          #  env:
-          #    DB_URL: jdbc:h2:mem:pizzeriatestdb
-          #    DB_USERNAME: sa
-          #    DB_PASSWORD: ""
+        env:
+          DB_URL: jdbc:mysql://127.0.0.1:3306/resto
+          DB_USERNAME: root
+          DB_PASSWORD: root
 
       # - name: Build with Maven
       #  run: mvn -B package --file pom.xml

@@ -49,7 +49,6 @@ class DishControllerTest {
   void setUp() {
     orderItemRepository.deleteAll();
     orderRepository.deleteAll();
-
     dishRepository.deleteAll();
     restTestClient = RestTestClient
         .bindToApplicationContext(context)

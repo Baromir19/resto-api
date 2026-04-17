@@ -33,19 +33,25 @@ jobs:
           --health-retries=20
 
     steps:
+      - name: Prepare variables
+        run: |
+          echo "REPO=${{ github.repository }}" >> $GITHUB_ENV
+          echo "BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "STATUS=${{ job.status }}" >> $GITHUB_ENV
+
       - name: Notify Teams
         if: always()
         run: |
           curl -X POST \
           -H "Content-Type: application/json" \
-          -d '{
-            "@type": "MessageCard",
-            "@context": "https://schema.org/extensions",
-            "summary": "GitHub Build",
-            "themeColor": "0076D7",
-            "title": "GitHub Actions Notification",
-            "text": "Repo: '"${{ github.repository }}"'\nBranch: '"${{ github.ref_name }}"'\nStatus: '"${{ job.status }}"'"
-          }' \
+          -d "{
+            \"@type\": \"MessageCard\",
+            \"@context\": \"https://schema.org/extensions\",
+            \"summary\": \"GitHub Build\",
+            \"themeColor\": \"0076D7\",
+            \"title\": \"GitHub Actions Notification\",
+            \"text\": \"Repo: $REPO\nBranch: $BRANCH\nStatus: $STATUS\"
+          }" \
           ${{ secrets.TEAMS_WEBHOOK_URL }}
 
       # todo: variables + urls to secrets !!

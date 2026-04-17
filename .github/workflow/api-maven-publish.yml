@@ -6,7 +6,9 @@ name: Api Package
 on:
   push:
     branches:
-      - "main"
+      - "master"
+      - "ci/deploy-github-actions"
+  workflow_dispatch:
 
 jobs:
   build:

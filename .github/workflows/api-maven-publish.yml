@@ -50,7 +50,7 @@ jobs:
             \"summary\": \"GitHub Build\",
             \"themeColor\": \"0076D7\",
             \"title\": \"GitHub Actions Notification\",
-            \"text\": \"Repo: $REPO\nBranch: $BRANCH\nStatus: $STATUS\"
+            \"text\": \"Repo: HI\nBranch: HI\nStatus: HI\"
           }" \
           ${{ secrets.TEAMS_WEBHOOK_URL }}
 

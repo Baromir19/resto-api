@@ -45,7 +45,7 @@ jobs:
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: maven
+          # cache: maven
 
       - name: Cache SonarQube packages
         uses: actions/cache@v4
@@ -66,18 +66,49 @@ jobs:
           mysql -h 127.0.0.1 -u root -proot resto < database/resto_schema.sql
           mysql -h 127.0.0.1 -u root -proot resto < database/resto_data.sql
 
-      - name: Build and analyze
+      - name: Run tests
+        run: mvn clean verify
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DB_URL: jdbc:mysql://127.0.0.1:3306/resto
           DB_USERNAME: root
           DB_PASSWORD: root
+
+      - name: SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B clean verify \
-          sonar:sonar \
+          mvn -B sonar:sonar \
           -Dsonar.projectKey=Baromir19_resto-api \
           -Dsonar.organization=baromir19 \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.qualitygate.wait=false
+
+      - name: Notify Teams (failure)
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Build failed",
+            "themeColor": "FF0000",
+            "title": "Build échouée",
+            "text": "Repo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
+          }' \
+          ${{ secrets.TEAMS_WEBHOOK_URL }}
+
+      - name: Notify Teams (success)
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d '{
+            "@type": "MessageCard",
+            "@context": "https://schema.org/extensions",
+            "summary": "Build success",
+            "themeColor": "00FF00",
+            "title": "Build réussite",
+            "text": "Repo: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
+          }' \
+          ${{ secrets.TEAMS_WEBHOOK_URL }}
 
       # todo: variables + urls to secrets !!

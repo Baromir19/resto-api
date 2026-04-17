@@ -40,7 +40,10 @@ jobs:
           settings-path: ${{ github.workspace }}
           cache: maven
 
-      # todo init db
+      - name: Init database
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot resto < database/resto_schema.sql
+          mysql -h 127.0.0.1 -uroot -proot resto < database/resto_data.sql
 
       - name: Run tests
         run: mvn clean verify

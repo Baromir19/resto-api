@@ -39,7 +39,6 @@ jobs:
           fetch-depth: 0
 
 
-
       - name: Notify Teams
         if: always()
         run: |
@@ -51,7 +50,10 @@ jobs:
             "summary":"GitHub Build",
             "themeColor":"0076D7",
             "title":"GitHub Actions Notification",
-            "text":"Repo: HI Branch: HI Status: HI"
+            "text":"
+              Repo: '${{ github.repository }}' 
+              Branch: '${{ github.ref_name }}' 
+              Status: '${{ job.status }}"
           }'
 
       # todo: variables + urls to secrets !!

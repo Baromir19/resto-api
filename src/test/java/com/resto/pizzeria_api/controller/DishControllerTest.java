@@ -1,7 +1,10 @@
 package com.resto.pizzeria_api.controller;
 
 import com.resto.pizzeria_api.model.Dish;
+import com.resto.pizzeria_api.model.OrderItem;
 import com.resto.pizzeria_api.repository.DishRepository;
+import com.resto.pizzeria_api.repository.OrderItemRepository;
+import com.resto.pizzeria_api.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,8 +39,16 @@ class DishControllerTest {
   @Autowired
   private DishRepository dishRepository;
 
+  @Autowired
+  private OrderRepository orderRepository;
+
+  @Autowired
+  private OrderItemRepository orderItemRepository;
+
   @BeforeEach
   void setUp() {
+    orderItemRepository.deleteAll();
+    orderRepository.deleteAll();
     dishRepository.deleteAll();
     restTestClient = RestTestClient
         .bindToApplicationContext(context)

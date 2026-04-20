@@ -1,0 +1,99 @@
+# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
+
+name: Api Package
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ vars.DB_NAME }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+          # cache: maven
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Init database
+        run: |
+          mysql -h 127.0.0.1 -u root -proot ${{ vars.DB_NAME }} < database/resto_schema.sql
+          mysql -h 127.0.0.1 -u root -proot ${{ vars.DB_NAME }} < database/resto_data.sql
+
+      - name: Run tests
+        run: mvn clean verify
+        env:
+          DB_URL: jdbc:mysql://127.0.0.1:3306/${{ vars.DB_NAME }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+      - name: Find package
+        run: find target -name "*.jar" -print
+
+      - name: SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          mvn -B sonar:sonar \
+          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} \
+          -Dsonar.organization=${{ vars.SONAR_ORG }} \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.qualitygate.wait=false
+
+      - name: Notify Teams
+        if: always()
+        run: |
+          curl -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "@type":"MessageCard",
+            "@context":"https://schema.org/extensions",
+            "summary":"GitHub Build",
+            "themeColor":"${{ job.status == 'success' && '00FF00' || 'FF0000' }}",
+            "title":"GitHub Actions Notification",
+            "text":" - **Repo:** '${{ github.repository }}'\r- **Branch:** '${{ github.ref_name }}'\r- **Status:** '${{ job.status }}'"
+          }'

@@ -22,8 +22,8 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: resto
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MYSQL_DATABASE: ${{ vars.DB_NAME }}
         ports:
           - 3306:3306
         options: >-
@@ -63,23 +63,23 @@ jobs:
 
       - name: Init database
         run: |
-          mysql -h 127.0.0.1 -u root -proot resto < database/resto_schema.sql
-          mysql -h 127.0.0.1 -u root -proot resto < database/resto_data.sql
+          mysql -h 127.0.0.1 -u root -proot ${{ vars.DB_NAME }} < database/resto_schema.sql
+          mysql -h 127.0.0.1 -u root -proot ${{ vars.DB_NAME }} < database/resto_data.sql
 
       - name: Run tests
         run: mvn clean verify
         env:
-          DB_URL: jdbc:mysql://127.0.0.1:3306/resto
-          DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_URL: jdbc:mysql://127.0.0.1:3306/${{ vars.DB_NAME }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B sonar:sonar \
-          -Dsonar.projectKey=Baromir19_resto-api \
-          -Dsonar.organization=baromir19 \
+          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} \
+          -Dsonar.organization=${{ vars.SONAR_ORG }} \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.qualitygate.wait=false
 
@@ -94,7 +94,7 @@ jobs:
             "summary":"GitHub Build",
             "themeColor":"${{ job.status == 'success' && '00FF00' || 'FF0000' }}",
             "title":"GitHub Actions Notification",
-            "text":" **Repo:** '${{ github.repository }}'\r\n**Branch:** '${{ github.ref_name }}'\r\n**Status:** '${{ job.status }}'"
+            "text":" - **Repo:** '${{ github.repository }}'\r-**Branch:** '${{ github.ref_name }}'\r-**Status:** '${{ job.status }}'"
           }'
 
-      # todo: variables + urls to secrets !!
+      # todo: compilation + get .jar?

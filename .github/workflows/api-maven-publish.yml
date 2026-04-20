@@ -50,10 +50,7 @@ jobs:
             "summary":"GitHub Build",
             "themeColor":"${{ job.status == 'success' && '00FF00' || 'FF0000' }}",
             "title":"GitHub Actions Notification",
-            "text":" \
-              Repo: '${{ github.repository }}' \
-              Branch: '${{ github.ref_name }}' \
-              Status: '${{ job.status }}"
+            "text":" **Repo:** '${{ github.repository }}' \n**Branch:** '${{ github.ref_name }}' \n**Status:** '${{ job.status }}"
           }'
 
       # todo: variables + urls to secrets !!

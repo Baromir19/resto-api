@@ -86,18 +86,15 @@ jobs:
       - name: Notify Teams
         if: always()
         run: |
-          set -x
-          
-          curl -v -X POST \
+          curl -X POST "${{ secrets.TEAMS_WEBHOOK_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{
-            \"@type\": \"MessageCard\",
-            \"@context\": \"https://schema.org/extensions\",
-            \"summary\": \"GitHub Build\",
-            \"themeColor\": \"0076D7\",
-            \"title\": \"GitHub Actions Notification\",
-            \"text\": \"Repo: HI\nBranch: HI\nStatus: HI\"
-          }" \
-          ${{ secrets.TEAMS_WEBHOOK_URL }}
+          -d '{
+            "@type":"MessageCard",
+            "@context":"https://schema.org/extensions",
+            "summary":"GitHub Build",
+            "themeColor":"0076D7",
+            "title":"GitHub Actions Notification",
+            "text":"Repo: HI Branch: HI Status: HI"
+          }'
 
       # todo: variables + urls to secrets !!

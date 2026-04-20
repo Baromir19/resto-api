@@ -7,8 +7,6 @@ on:
   push:
     branches:
       - "master"
-      - "ci/deploy-github-actions"
-  workflow_dispatch:
 
 jobs:
   build:

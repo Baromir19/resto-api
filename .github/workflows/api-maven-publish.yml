@@ -99,5 +99,3 @@ jobs:
             "title":"GitHub Actions Notification",
             "text":" - **Repo:** '${{ github.repository }}'\r- **Branch:** '${{ github.ref_name }}'\r- **Status:** '${{ job.status }}'"
           }'
-
-      # todo: compilation + get .jar?

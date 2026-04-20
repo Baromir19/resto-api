@@ -48,11 +48,11 @@ jobs:
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
             "summary":"GitHub Build",
-            "themeColor":"0076D7",
+            "themeColor":"${{ job.status == 'success' && '00FF00' || 'FF0000' }}",
             "title":"GitHub Actions Notification",
-            "text":"
-              Repo: '${{ github.repository }}' 
-              Branch: '${{ github.ref_name }}' 
+            "text":" \
+              Repo: '${{ github.repository }}' \
+              Branch: '${{ github.ref_name }}' \
               Status: '${{ job.status }}"
           }'
 

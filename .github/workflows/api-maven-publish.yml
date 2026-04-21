@@ -1,6 +1,3 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
 name: Api Package
 
 on:
@@ -25,7 +22,7 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -u ${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }}"
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=20
@@ -71,8 +68,11 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-      - name: Find package
-        run: find target -name "*.jar" -print
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-jar
+          path: target/*.jar
 
       - name: SonarCloud analysis
         env:

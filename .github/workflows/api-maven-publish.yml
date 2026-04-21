@@ -1,12 +1,10 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
 name: Api Package
 
 on:
   push:
     branches:
       - "master"
+      - "ci/deploy-workflow-fix"
 
 jobs:
   build:
@@ -71,8 +69,11 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
-      - name: Find package
-        run: find target -name "*.jar" -print
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-jar
+          path: target/*.jar
 
       - name: SonarCloud analysis
         env:

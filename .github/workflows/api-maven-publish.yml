@@ -47,7 +47,7 @@ jobs:
           mysql -h 127.0.0.1 -u ${{ secrets.DB_USERNAME }} -p${{ secrets.DB_PASSWORD }} ${{ vars.DB_NAME }} < database/resto_data.sql
 
       - name: Run tests and Allure report
-        run: mvn clean test allure:report
+        run: mvn clean test
         env:
           DB_URL: jdbc:mysql://127.0.0.1:3306/${{ vars.DB_NAME }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}

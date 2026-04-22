@@ -3,6 +3,7 @@ package com.resto.pizzeria_api.service;
 import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Client;
 import com.resto.pizzeria_api.repository.ClientRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.*;
  * Isole complètement le service via Mockito — aucun accès base de données.
  */
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(AllureJunit5.class)
 @DisplayName("ClientService — tests unitaires")
 class ClientServiceTest {
 

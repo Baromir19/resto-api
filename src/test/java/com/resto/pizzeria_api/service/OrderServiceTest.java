@@ -5,6 +5,7 @@ import com.resto.pizzeria_api.model.Client;
 import com.resto.pizzeria_api.model.Order;
 import com.resto.pizzeria_api.model.OrderItem;
 import com.resto.pizzeria_api.repository.OrderRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ import static org.mockito.Mockito.*;
  * - saveOrder() gère aussi bien la création (id=null) que la mise à jour
  */
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(AllureJunit5.class)
 @DisplayName("OrderService — tests unitaires")
 class OrderServiceTest {
 

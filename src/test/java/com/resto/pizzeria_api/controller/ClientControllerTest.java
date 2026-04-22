@@ -4,9 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.resto.pizzeria_api.model.Client;
 import com.resto.pizzeria_api.repository.ClientRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.client.assertj.RestTestClientRespons
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
+@ExtendWith(AllureJunit5.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")

@@ -5,6 +5,7 @@ import com.resto.pizzeria_api.model.Dish;
 import com.resto.pizzeria_api.model.Order;
 import com.resto.pizzeria_api.model.OrderItem;
 import com.resto.pizzeria_api.repository.OrderItemRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ import static org.mockito.Mockito.*;
  * - La quantité doit être strictement positive (@Positive)
  */
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(AllureJunit5.class)
 @DisplayName("OrderItemService — tests unitaires")
 class OrderItemServiceTest {
 

@@ -3,6 +3,7 @@ package com.resto.pizzeria_api.service;
 import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Dish;
 import com.resto.pizzeria_api.repository.DishRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.*;
  * - deleteDish() est un soft delete : il met available=false au lieu de supprimer la ligne
  */
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(AllureJunit5.class)
 @DisplayName("DishService — tests unitaires")
 class DishServiceTest {
 

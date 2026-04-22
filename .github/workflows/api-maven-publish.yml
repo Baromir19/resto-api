@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - "master"
-      - "ci/deploy-dockerhub" # todo: remove
 
 jobs:
   tests-job:

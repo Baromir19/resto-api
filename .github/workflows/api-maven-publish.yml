@@ -121,8 +121,7 @@ jobs:
       - name: Build and push API image
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./api/Dockerfile
+          context: ./api
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/resto-api:latest

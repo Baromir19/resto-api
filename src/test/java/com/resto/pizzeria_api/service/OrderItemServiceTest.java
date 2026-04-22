@@ -34,7 +34,6 @@ import static org.mockito.Mockito.*;
  * - La quantité doit être strictement positive (@Positive)
  */
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(AllureJunit5.class)
 @DisplayName("OrderItemService — tests unitaires")
 class OrderItemServiceTest {
 

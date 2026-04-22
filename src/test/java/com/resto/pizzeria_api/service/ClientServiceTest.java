@@ -23,7 +23,6 @@ import static org.mockito.Mockito.*;
  * Isole complètement le service via Mockito — aucun accès base de données.
  */
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(AllureJunit5.class)
 @DisplayName("ClientService — tests unitaires")
 class ClientServiceTest {
 

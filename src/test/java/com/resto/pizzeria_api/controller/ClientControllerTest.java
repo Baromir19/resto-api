@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.client.assertj.RestTestClientRespons
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
-@ExtendWith(AllureJunit5.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")

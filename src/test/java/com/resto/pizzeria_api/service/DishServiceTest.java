@@ -31,7 +31,6 @@ import static org.mockito.Mockito.*;
  * - deleteDish() est un soft delete : il met available=false au lieu de supprimer la ligne
  */
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(AllureJunit5.class)
 @DisplayName("DishService — tests unitaires")
 class DishServiceTest {
 

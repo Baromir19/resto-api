@@ -32,7 +32,6 @@ import static org.mockito.Mockito.*;
  * - saveOrder() gère aussi bien la création (id=null) que la mise à jour
  */
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(AllureJunit5.class)
 @DisplayName("OrderService — tests unitaires")
 class OrderServiceTest {
 

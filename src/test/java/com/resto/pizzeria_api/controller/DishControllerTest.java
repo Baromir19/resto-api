@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ExtendWith(AllureJunit5.class)
 @AutoConfigureMockMvc
 @AutoConfigureRestTestClient
 @ActiveProfiles("test")

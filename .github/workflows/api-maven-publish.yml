@@ -125,5 +125,5 @@ jobs:
           file: ./api/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/api:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/resto-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/resto-api:${{ github.sha }}

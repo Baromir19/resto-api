@@ -3,6 +3,7 @@ package com.resto.pizzeria_api.service;
 import com.resto.pizzeria_api.exception.ApiNotFoundException;
 import com.resto.pizzeria_api.model.Dish;
 import com.resto.pizzeria_api.repository.DishRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

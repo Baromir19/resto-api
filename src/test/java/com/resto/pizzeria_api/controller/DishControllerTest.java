@@ -1,10 +1,15 @@
 package com.resto.pizzeria_api.controller;
 
 import com.resto.pizzeria_api.model.Dish;
+import com.resto.pizzeria_api.model.OrderItem;
 import com.resto.pizzeria_api.repository.DishRepository;
+import com.resto.pizzeria_api.repository.OrderItemRepository;
+import com.resto.pizzeria_api.repository.OrderRepository;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,8 +41,16 @@ class DishControllerTest {
   @Autowired
   private DishRepository dishRepository;
 
+  @Autowired
+  private OrderRepository orderRepository;
+
+  @Autowired
+  private OrderItemRepository orderItemRepository;
+
   @BeforeEach
   void setUp() {
+    orderItemRepository.deleteAll();
+    orderRepository.deleteAll();
     dishRepository.deleteAll();
     restTestClient = RestTestClient
         .bindToApplicationContext(context)
